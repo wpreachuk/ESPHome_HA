@@ -1,0 +1,68 @@
+---
+esphome:
+  name: cherrybutton
+
+esp8266:
+  board: nodemcuv2
+
+# Enable logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption
+
+ota:
+  password: !secret psk_ota
+
+output:
+  #BuiltInLED
+  - platform: gpio
+    pin:
+      number: D4
+      mode: output
+    id: LED
+
+binary_sensor:
+  # East Garage Door
+  - platform: gpio
+    pin:
+      number: D1
+      mode:
+        input: true
+        pullup: true
+        output: false
+        open_drain: false
+        pulldown: false
+      inverted: true
+    name: bedroom cherry switch
+    id: cherry_lightswitch
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+    on_state:
+      then:
+        - if:
+            condition:
+              or:
+                - binary_sensor.is_on: cherry_lightswitch
+            then:
+              - output.turn_off: LED
+            else:
+              - output.turn_on: LED
+
+wifi:
+  ssid: !secret SSID
+  password: !secret psk_wifi
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Cherrybutton Fallback Hotspot"
+    password: !secret psk_fallbackAP
+
+captive_portal:
+    
