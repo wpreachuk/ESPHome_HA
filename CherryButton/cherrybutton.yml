@@ -18,15 +18,15 @@ ota:
   password: !secret psk_ota
 
 output:
-  #BuiltInLED
-  - platform: gpio
-    pin:
-      number: D4
-      mode: output
-    id: LED
+  #BuiltInLED Removed in favour of using onboard LED
+  #- platform: gpio
+  #  pin:
+  #    number: D4
+  #    mode: output
+  #  id: LED
 
 binary_sensor:
-  # East Garage Door
+  # MasterSwitch
   - platform: gpio
     pin:
       number: D1
@@ -37,8 +37,8 @@ binary_sensor:
         open_drain: false
         pulldown: false
       inverted: true
-    name: bedroom cherry switch
-    id: cherry_lightswitch
+    name: Master cherry switch
+    id: cherry_lightswitch1
     device_class: ''
     filters:
       - delayed_on: 10ms
@@ -49,7 +49,91 @@ binary_sensor:
         - if:
             condition:
               or:
-                - binary_sensor.is_on: cherry_lightswitch
+                - binary_sensor.is_on: cherry_lightswitch1
+            then:
+              - output.turn_off: LED
+            else:
+              - output.turn_on: LED
+    # MasterSwitch
+  - platform: gpio
+    pin:
+      number: D2
+      mode:
+        input: true
+        pullup: true
+        output: false
+        open_drain: false
+        pulldown: false
+      inverted: true
+    name: Bedroom cherry switch
+    id: cherry_lightswitch2
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+    on_state:
+      then:
+        - if:
+            condition:
+              or:
+                - binary_sensor.is_on: cherry_lightswitch2
+            then:
+              - output.turn_off: LED
+            else:
+              - output.turn_on: LED
+  # MasterSwitch
+  - platform: gpio
+    pin:
+      number: D3
+      mode:
+        input: true
+        pullup: true
+        output: false
+        open_drain: false
+        pulldown: false
+      inverted: true
+    name: AC cherry switch
+    id: cherry_lightswitch3
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+    on_state:
+      then:
+        - if:
+            condition:
+              or:
+                - binary_sensor.is_on: cherry_lightswitch3
+            then:
+              - output.turn_off: LED
+            else:
+              - output.turn_on: LED
+  # MasterSwitch
+  - platform: gpio
+    pin:
+      number: D4
+      mode:
+        input: true
+        pullup: true
+        output: false
+        open_drain: false
+        pulldown: false
+      inverted: true
+    name: Master cherry switch off 
+    id: cherry_lightswitch4
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+    on_state:
+      then:
+        - if:
+            condition:
+              or:
+                - binary_sensor.is_on: cherry_lightswitch4
             then:
               - output.turn_off: LED
             else:
