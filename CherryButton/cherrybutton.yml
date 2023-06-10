@@ -17,128 +17,122 @@ api:
 ota:
   password: !secret psk_ota
 
-output:
-  #BuiltInLED Removed in favour of using onboard LED
-  #- platform: gpio
-  #  pin:
-  #    number: D4
-  #    mode: output
-  #  id: LED
+#output:
+#  #BuiltInLED Removed in favour of using onboard LED
+#  - platform: gpio
+#    pin:
+#      number: D4
+#      mode: output
+#    id: LED
+
+matrix_keypad:
+  id: CherryButtons
+  rows:
+    - pin: D4
+    - pin: D6
+    - pin: D7
+  columns:
+    - pin: D3
+    - pin: D2
+    - pin: D1
+  keys: "789456123"
+  has_diodes: true
 
 binary_sensor:
   # MasterSwitch
-  - platform: gpio
-    pin:
-      number: D1
-      mode:
-        input: true
-        pullup: true
-        output: false
-        open_drain: false
-        pulldown: false
-      inverted: true
-    name: Master cherry switch
-    id: cherry_lightswitch1
-    device_class: ''
-    filters:
-      - delayed_on: 10ms
-    disabled_by_default: false
-    publish_initial_state: true
-    on_state:
-      then:
-        - if:
-            condition:
-              or:
-                - binary_sensor.is_on: cherry_lightswitch1
-            then:
-              - output.turn_off: LED
-            else:
-              - output.turn_on: LED
-    # MasterSwitch
-  - platform: gpio
-    pin:
-      number: D2
-      mode:
-        input: true
-        pullup: true
-        output: false
-        open_drain: false
-        pulldown: false
-      inverted: true
-    name: Bedroom cherry switch
-    id: cherry_lightswitch2
-    device_class: ''
-    filters:
-      - delayed_on: 10ms
-    disabled_by_default: false
-    publish_initial_state: true
-    on_state:
-      then:
-        - if:
-            condition:
-              or:
-                - binary_sensor.is_on: cherry_lightswitch2
-            then:
-              - output.turn_off: LED
-            else:
-              - output.turn_on: LED
-  # MasterSwitch
-  - platform: gpio
-    pin:
-      number: D3
-      mode:
-        input: true
-        pullup: true
-        output: false
-        open_drain: false
-        pulldown: false
-      inverted: true
-    name: AC cherry switch
-    id: cherry_lightswitch3
-    device_class: ''
-    filters:
-      - delayed_on: 10ms
-    disabled_by_default: false
-    publish_initial_state: true
-    on_state:
-      then:
-        - if:
-            condition:
-              or:
-                - binary_sensor.is_on: cherry_lightswitch3
-            then:
-              - output.turn_off: LED
-            else:
-              - output.turn_on: LED
-  # MasterSwitch
-  - platform: gpio
-    pin:
-      number: D4
-      mode:
-        input: true
-        pullup: true
-        output: false
-        open_drain: false
-        pulldown: false
-      inverted: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 9
     name: Master cherry switch off 
-    id: cherry_lightswitch4
+    id: cherry_lightswitch_9
     device_class: ''
     filters:
       - delayed_on: 10ms
     disabled_by_default: false
     publish_initial_state: true
-    on_state:
-      then:
-        - if:
-            condition:
-              or:
-                - binary_sensor.is_on: cherry_lightswitch4
-            then:
-              - output.turn_off: LED
-            else:
-              - output.turn_on: LED
-
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 8
+    name: AC Cherry Switch
+    id: cherry_lightswitch_8
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 7
+    name: Master cherry switch
+    id: cherry_lightswitch7
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 6
+    name: Button 6
+    id: cherry_lightswitch6
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+    # MasterSwitch
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 5
+    name: Bedroom cherry switch
+    id: cherry_lightswitch_5
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 4
+    name: Button 4
+    id: cherry_lightswitch_4
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  # MasterSwitch
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 3
+    name: Button 3
+    id: cherry_lightswitch_3
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 2
+    name: Button 2
+    id: cherry_lightswitch_2
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  - platform: matrix_keypad
+    keypad_id: CherryButtons
+    key: 1
+    name: Button1
+    id: cherry_lightswitch_1
+    device_class: ''
+    filters:
+      - delayed_on: 10ms
+    disabled_by_default: false
+    publish_initial_state: true
+  
 wifi:
   ssid: !secret SSID
   password: !secret psk_wifi
