@@ -1,0 +1,325 @@
+esphome:
+  name: frigidaire-bedroom
+  friendly_name: Frigidaire-Bedroom
+
+esp8266:
+  board: esp8285
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "<SOME_ENCRYPTION_KEY>"
+
+ota:
+  password: "<SOME_OTA_KEY>"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Frigidaire"
+    password: "SomePassword"
+
+globals:
+  - id: temp
+    type: int
+    restore_value: yes
+    initial_value: '70' #0 is low,1 is medium, 2 is high, 3 is auto
+#  - id: mode
+#    type: int
+#    restore_value: yes
+#    initial_value: '1' #0 is cool,1 is auto, 2 is fan only
+#  - id: fan_speed
+#    type: int
+#    restore_value: yes
+#    initial_value: '0' #0 is low,1 is medium, 2 is high
+#  - id: auto_fan
+#    type: bool
+#    restore_value: yes
+#    initial_value: 'false'
+#  - id: timer
+#    type: bool
+#    restore_value: yes
+#    initial_value: 'false'
+
+binary_sensor:
+  - platform: template
+    name: Power
+    id: on_off
+    icon: mdi:power-settings
+  - platform: template
+    name: Auto Fan
+    id: auto_fan
+    icon: mdi:fan-auto
+  - platform: template
+    name: Timer Mode
+    id: timer
+    icon: mdi:timer-star-outline
+  - platform: template
+    id: mode_fan
+  - platform: template
+    id: mode_cool
+  - platform: template
+    id: mode_auto
+  - platform: template
+    id: fan_low
+  - platform: template
+    id: fan_med
+  - platform: template
+    id: fan_high
+
+#text_sensor:
+#  - name: Fan Speed
+#    icon: mdi:fan 
+#  - name: Fan Mode
+#    icon: mdi:fan
+
+remote_transmitter:
+  pin: GPIO4
+  carrier_duty_percent: 50%
+
+remote_receiver:
+  id: br2acrcvr
+  pin:
+    number: GPIO14
+    inverted: true
+    mode:
+      input: true
+      pullup: true
+  dump: all
+  # high 55% tolerance is recommended for some remote control units
+  tolerance: 55%
+
+switch:
+  - platform: template
+    name: RF Power Button
+    id: power_button
+    icon: mdi:power
+    lambda: |-
+      if (id(on_off).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF8877 # power on/off
+          nbits: 32      
+      - binary_sensor.template.publish:
+          id: on_off
+          state: True
+      - if:
+          condition:
+            lambda: 'return id(mode_cool).state;'
+          then:
+            - binary_sensor.template.publish:
+                id: mode_cool
+                state: False
+            - binary_sensor.template.publish:
+                id: mode_auto
+                state: True 
+    turn_off_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF8877 # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: on_off
+          state: False
+  - platform: template
+    name: Cool Button
+    icon: mdi:ice-pop
+    lambda: |-
+      if (id(on_off).state && id(mode_cool).state) {
+          return true;
+        } else {
+          return false;
+        }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF906F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: mode_cool
+          state: True
+      - binary_sensor.template.publish:
+          id: mode_fan
+          state: False
+      - binary_sensor.template.publish:
+          id: mode_auto
+          state: False  
+  - platform: template
+    name: Energy Saving Button
+    icon: mdi:forest-outline
+    lambda: |-
+      if (id(on_off).state && id(mode_auto).state) {
+          return true;
+        } else {
+          return false;
+        }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF40BF # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: mode_cool
+          state: False
+      - binary_sensor.template.publish:
+          id: mode_fan
+          state: False
+      - binary_sensor.template.publish:
+          id: mode_auto
+          state: True
+  - platform: template
+    name: Fan Only Button
+    icon: mdi:ceiling-fan
+    lambda: |-
+      if (id(on_off).state && id(mode_fan).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFE01F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: mode_cool
+          state: False
+      - binary_sensor.template.publish:
+          id: mode_fan
+          state: True
+      - binary_sensor.template.publish:
+          id: mode_auto
+          state: False
+  - platform: template
+    name: Auto-Fan Button
+    id: autofan_button
+    icon: mdi:fan-auto
+    lambda: |-
+      if (id(auto_fan)) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFF00F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: auto_fan
+          state: True
+    turn_off_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFF00F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: auto_fan
+          state: False
+  - platform: template
+    name: Timer Activate
+    id: timer_button
+    icon: mdi:timer-star-outline
+    lambda: |-
+      if (id(timer).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF609F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: timer
+          state: True     
+    turn_off_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF609F # power on/off
+          nbits: 32
+      - binary_sensor.template.publish:
+          id: timer
+          state: False     
+button:
+  - platform: template
+    name: Temp Up
+    icon: mdi:thermometer-chevron-up
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF708F # power on/off
+          nbits: 32 
+  - platform: template
+    name: Temp Down
+    icon: mdi:thermometer-chevron-down
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFB04F # power on/off
+          nbits: 32
+  - platform: template
+    name: Timer Up
+    icon: mdi:timer-plus-outline
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF708F # power on/off
+          nbits: 32
+  - platform: template
+    name: Timer Down
+    icon: mdi:timer-minus-outline
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFB04F # power on/off
+          nbits: 32
+  - platform: template
+    name: Fan Speed Up
+    icon: mdi:fan-chevron-up
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF807F # power on/off
+          nbits: 32 
+  - platform: template
+    name: Fan Speed Down
+    icon: mdi:fan-chevron-down
+    on_press:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF20DF # power on/off
+          nbits: 32
+                                                
+
+
+###
+#climate:
+#  - platform: heatpumpir
+#    protocol: electroluxyal
+#    min_temperature: 60
+#    max_temperature: 75
+#    horizontal_default: middle
+#    vertical_default: middle
+#    name: "Bedroom AC"
+#    supports_heat: false
+#    visual:
+#      min_temperature: 60
+#      max_temperature: 75
+#      temperature_step: 
+#        target_temperature: 1.0
+#        current_temperature: 0.1
+
+#sensor:
+#  - platform: homeassistant
+#    id: br_room_temp
+#    entity_id: sensor.bedroom_temperature
+#
+#  - platform: template
+#    id: br_room_temp_c
+#    lambda: |-
+#      if (id(br_room_temp).state) {
+#        return round((id(br_room_temp).state - 32) * (0.5556));
+#      } else {
+#        return 0;
+#      }
+
+captive_portal:
+    
