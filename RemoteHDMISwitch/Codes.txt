@@ -1,0 +1,73 @@
+#Power
+[23:23:46][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:23:46][I][remote.lg:054]: Received LG: data=0x00FFA25D, nbits=32
+[23:23:46][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xBA45
+[23:23:46][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0045
+[23:23:46][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0041 0016 0015
+[23:23:46][I][remote.pronto:239]: 0016 0015 0016 0015 0016 0041 0016 0015 0016 0015 0016 0041 0016 0015 0016 0041 0016 0041 0016 0041 0016 0015 0016 0041 0016 0181 06C3
+[23:23:46][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:23:46][W][component:205]: Components should block for at most 20-30ms.
+[23:23:46][I][remote.pronto:237]: Received Pronto: data=0000 006D 0002 0000 015C 0057 0016 0181 06C3
+
+#Increment
+[23:25:30][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:25:30][I][remote.lg:054]: Received LG: data=0x00FF5AA5, nbits=32
+[23:25:30][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xA55A
+[23:25:30][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x005A
+[23:25:30][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0041 0016 0015 0016 0041
+[23:25:30][I][remote.pronto:239]: 0016 0041 0016 0015 0016 0041 0016 0015 0016 0041 0016 0015 0016 0041 0016 0015 0016 0015 0016 0041 0016 0015 0016 0041 0016 0181 06C3
+[23:25:30][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:25:30][W][component:205]: Components should block for at most 20-30ms.
+
+#Decrement
+[23:26:03][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:26:03][I][remote.lg:054]: Received LG: data=0x00FF10EF, nbits=32
+[23:26:03][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xF708
+[23:26:03][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0008
+[23:26:03][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0015 0016 0015 0016 0041
+[23:26:03][I][remote.pronto:239]: 0016 0015 0016 0015 0016 0015 0016 0016 0015 0042 0015 0042 0015 0042 0015 0016 0015 0042 0015 0042 0015 0042 0015 0042 0015 0181 06C3
+[23:26:03][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:26:03][W][component:205]: Components should block for at most 20-30ms.
+
+#1
+[23:28:31][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:28:31][I][remote.lg:054]: Received LG: data=0x00FFE01F, nbits=32
+[23:28:31][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xF807
+[23:28:31][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0007
+[23:28:31][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015
+[23:28:31][I][remote.pronto:239]: 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0181 06C3
+
+#2
+[23:28:49][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:28:49][I][remote.lg:054]: Received LG: data=0x00FF906F, nbits=32
+[23:28:49][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xF609
+[23:28:49][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0009
+[23:28:49][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0015 0016 0041
+[23:28:49][I][remote.pronto:239]: 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0181 06C3
+[23:28:49][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:28:49][W][component:205]: Components should block for at most 20-30ms.
+#3
+[23:29:07][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:29:07][I][remote.lg:054]: Received LG: data=0x00FF6897, nbits=32
+[23:29:07][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xE916
+[23:29:07][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0016
+[23:29:07][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0041 0016 0041 0016 0015
+[23:29:07][I][remote.pronto:239]: 0016 0041 0016 0015 0016 0016 0015 0016 0015 0041 0016 0016 0015 0016 0015 0042 0015 0016 0015 0042 0015 0042 0015 0042 0015 0181 06C3
+#4
+[23:29:33][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:29:33][I][remote.lg:054]: Received LG: data=0x00FFB04F, nbits=32
+[23:29:33][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xF20D
+[23:29:33][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x000D
+[23:29:33][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0042 0015 0041 0016 0015 0016 0041 0016 0041
+[23:29:33][I][remote.pronto:239]: 0016 0015 0016 0015 0016 0016 0015 0016 0015 0016 0015 0042 0015 0016 0015 0016 0015 0042 0015 0042 0015 0042 0015 0042 0015 0181 06C3
+[23:29:33][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:29:33][W][component:205]: Components should block for at most 20-30ms.
+#5
+[23:29:47][I][remote.jvc:049]: Received JVC: data=0x00FF
+[23:29:47][I][remote.lg:054]: Received LG: data=0x00FF18E7, nbits=32
+[23:29:47][I][remote.nec:070]: Received NEC: address=0xFF00, command=0xE718
+[23:29:47][I][remote.pioneer:149]: Received Pioneer: rc_code_X=0x0018
+[23:29:47][I][remote.pronto:237]: Received Pronto: data=0000 006D 0022 0000 015D 00AD 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0015 0016 0015 0016 0015 0016 0041
+[23:29:47][I][remote.pronto:239]: 0016 0042 0015 0016 0015 0015 0016 0015 0016 0042 0015 0042 0015 0042 0015 0016 0015 0016 0015 0042 0015 0042 0015 0042 0015 0181 06C3
+[23:29:47][W][component:204]: Component remote_receiver took a long time for an operation (0.06 s).
+[23:29:47][W][component:205]: Components should block for at most 20-30ms.

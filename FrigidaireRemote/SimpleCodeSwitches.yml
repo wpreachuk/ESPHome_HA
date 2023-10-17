@@ -1,0 +1,137 @@
+esphome:
+  name: frigidaire
+  friendly_name: Frigidaire
+
+esp8266:
+  board: esp8285
+
+# Enable logging enable the below if you need to play with this
+#logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption
+
+ota:
+  password: "<SOME_OTA_KEY>"
+
+wifi:
+  ssid: !secret SSID
+  password: !secret psk_wifi
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Frigidaire"
+    password: !secret psk_fallbackAP
+
+######Below is a sample of a simple ESP8285 configuration that does not have quality of life features. 
+remote_transmitter:
+  pin: GPIO4
+  carrier_duty_percent: 50%
+
+remote_receiver:
+  id: br2acrcvr
+  pin:
+    number: GPIO14
+    inverted: true
+    mode:
+      input: true
+      pullup: true
+  dump: all
+  # high 55% tolerance is recommended for some remote control units
+  tolerance: 55%
+
+switch:
+  - platform: template
+    name: RF Power Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF8877 # power on/off
+          nbits: 32
+  - platform: template
+    name: Cool Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF906F # power on/off
+          nbits: 32
+  - platform: template
+    name: Energy Saving Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF40BF # power on/off
+          nbits: 32
+  - platform: template
+    name: Fan Only Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFE01F # power on/off
+          nbits: 32
+  - platform: template
+    name: Auto-Fan Button
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFF00F # power on/off
+          nbits: 32
+  - platform: template
+    name: Fan Speed Down
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF20DF # power on/off
+          nbits: 32
+  - platform: template
+    name: Fan Speed Up
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF807F # power on/off
+          nbits: 32
+  - platform: template
+    name: Timer Activate
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF609F # power on/off
+          nbits: 32        
+  - platform: template
+    name: Timer / Temp Up
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AF708F # power on/off
+          nbits: 32 
+  - platform: template
+    name: Timer / Temp Down
+    turn_on_action:
+      - remote_transmitter.transmit_lg:
+          data: 0x10AFB04F # power on/off
+          nbits: 32                                                 
+###
+#climate:
+#  - platform: heatpumpir
+#    protocol: electroluxyal
+#    min_temperature: 60
+#    max_temperature: 75
+#    horizontal_default: middle
+#    vertical_default: middle
+#    name: "Bedroom AC"
+#    supports_heat: false
+#    visual:
+#      min_temperature: 60
+#      max_temperature: 75
+#      temperature_step: 
+#        target_temperature: 1.0
+#        current_temperature: 0.1
+
+#sensor:
+#  - platform: homeassistant
+#    id: br_room_temp
+#    entity_id: sensor.bedroom_temperature
+#
+#  - platform: template
+#    id: br_room_temp_c
+#    lambda: |-
+#      if (id(br_room_temp).state) {
+#        return round((id(br_room_temp).state - 32) * (0.5556));
+#      } else {
+#        return 0;
+#      }
+
+captive_portal:
